@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UsersRequest;
+use App\Photo;
 use App\Role;
 use App\User;
 use Illuminate\Http\Request;
@@ -23,6 +24,10 @@ class AdminUsersController extends Controller
         return view('admin.users.index', compact('users'));
     }
 
+
+
+
+
     /**
      * Show the form for creating a new resource.
      *
@@ -35,6 +40,10 @@ class AdminUsersController extends Controller
         return view('admin.users.create', compact('roles'));
     }
 
+
+
+
+
     /**
      * Store a newly created resource in storage.
      *
@@ -43,11 +52,29 @@ class AdminUsersController extends Controller
      */
     public function store(UsersRequest $request)
     {
-        User::create($request->all());
+        $input = $request->all();
 
-        return redirect('/admin/users');
+        if($file = $request->file('photo_id')){
+
+            $name = time() . $file->getClientOriginalName();
+
+            $file->move('images', $name);
+
+            $photo = Photo::create(['file'=>$name]);
+
+            $input['photo_id'] = $photo->id;
+        }
+
+        $input['password'] = bcrypt($request->password);
+
+        User::create($input);
+
+//        return redirect('/admin/users');
 
     }
+
+
+
 
     /**
      * Display the specified resource.
@@ -60,6 +87,9 @@ class AdminUsersController extends Controller
         return view('admin.users.show');
     }
 
+
+
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -70,6 +100,10 @@ class AdminUsersController extends Controller
     {
         return view('admin.users.edit');
     }
+
+
+
+
 
     /**
      * Update the specified resource in storage.
@@ -82,6 +116,10 @@ class AdminUsersController extends Controller
     {
         //
     }
+
+
+
+
 
     /**
      * Remove the specified resource from storage.
