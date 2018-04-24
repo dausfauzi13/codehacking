@@ -41,8 +41,8 @@
                         <td>{{$user->email}}</td>
                         <td>{{$user->role->name}}</td>
                         <td>{{$user->is_active == 1 ? 'Active' : 'Not Active'}}</td>
-                        <td>{{$user->created_at/*->diffForHumans*/}}</td>
-                        <td>{{$user->updated_at/*->diffForHumans*/}}</td>
+                        <td>{{$user->created_at->diffForhumans()}}</td>
+                        <td>{{$user->updated_at->diffForhumans()}}</td>
                     </tr>
 
                 @endforeach

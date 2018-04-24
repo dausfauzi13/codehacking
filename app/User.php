@@ -25,7 +25,6 @@ class User extends Authenticatable
     ];
 
 
-
     public function role(){
         return $this->belongsTo('App\Role');
     }
@@ -45,7 +44,6 @@ class User extends Authenticatable
     }
 
 
-
     public function isAdmin(){
 
         if($this->role->name == "administrator" && $this->is_active == 1){
@@ -53,6 +51,12 @@ class User extends Authenticatable
         }
 
         return false;
+
+    }
+
+
+    public function posts(){
+        return $this->hasMany('App\Post');
 
     }
 
