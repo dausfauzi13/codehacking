@@ -18,10 +18,7 @@ class PostCommentsController extends Controller
      */
     public function index()
     {
-        //
-
         $comments = Comment::all();
-
 
         return view('admin.comments.index', compact('comments'));
     }
@@ -44,35 +41,26 @@ class PostCommentsController extends Controller
      */
     public function store(Request $request)
     {
-        //
-
-
         $user = Auth::user();
-
 
         $data = [
 
             'post_id' => $request->post_id,
-            'author'=> $user->name,
-            'email' =>$user->email,
-            'photo'=>$user->photo->file,
-            'body'=>$request->body
-
+            'author'  => $user->name,
+            'email'   => $user->email,
+            'photo'   => $user->photo->file,
+            'body'    => $request->body
 
         ];
 
-
         Comment::create($data);
 
-        $request->session()->flash('comment_message','Your message has been submitted and is waiting moderation');
+        $request->session()->flash('comment_message', 'Your comment have been submitted and is waiting for moderation');
 
         return redirect()->back();
-
-
-
-
-
     }
+
+
 
     /**
      * Display the specified resource.
@@ -82,20 +70,16 @@ class PostCommentsController extends Controller
      */
     public function show($id)
     {
-        //
-
-
-
         $post = Post::findOrFail($id);
 
         $comments = $post->comments;
 
-
         return view('admin.comments.show', compact('comments'));
 
-
-
     }
+
+
+
 
     /**
      * Show the form for editing the specified resource.
@@ -105,8 +89,10 @@ class PostCommentsController extends Controller
      */
     public function edit($id)
     {
-        //
+
     }
+
+
 
     /**
      * Update the specified resource in storage.
@@ -117,15 +103,12 @@ class PostCommentsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-
-
         Comment::findOrFail($id)->update($request->all());
 
         return redirect('/admin/comments');
-
-
     }
+
+
 
     /**
      * Remove the specified resource from storage.
@@ -135,12 +118,9 @@ class PostCommentsController extends Controller
      */
     public function destroy($id)
     {
-        //
-
         Comment::findOrFail($id)->delete();
 
         return redirect()->back();
-
 
     }
 }
